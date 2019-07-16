@@ -1315,15 +1315,17 @@ func (g *Generator) generateImports() {
 	// We almost always need a proto import.  Rather than computing when we
 	// do, which is tricky when there's a plugin, just import it and
 	// reference it later. The same argument applies to the fmt and math packages.
-	g.P("import (")
-	// g.P(g.Pkg["fmt"] + ` "fmt"`)
-	// g.P(g.Pkg["math"] + ` "math"`)
-	// g.P(g.Pkg["proto"]+" ", GoImportPath(g.ImportPrefix)+"github.com/golang/protobuf/proto")
-	for importPath, packageName := range imports {
-		g.P(packageName, " ", GoImportPath(g.ImportPrefix)+importPath)
+	if len(imports) > 0 {
+		g.P("import (")
+		// g.P(g.Pkg["fmt"] + ` "fmt"`)
+		// g.P(g.Pkg["math"] + ` "math"`)
+		// g.P(g.Pkg["proto"]+" ", GoImportPath(g.ImportPrefix)+"github.com/golang/protobuf/proto")
+		for importPath, packageName := range imports {
+			g.P(packageName, " ", GoImportPath(g.ImportPrefix)+importPath)
+		}
+		g.P(")")
+		g.P()
 	}
-	g.P(")")
-	g.P()
 	// TODO: may need to worry about uniqueness across plugins
 	for _, p := range plugins {
 		p.GenerateImports(g.file)
