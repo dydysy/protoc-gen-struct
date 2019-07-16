@@ -1166,7 +1166,7 @@ func (g *Generator) generate(file *FileDescriptor) {
 	g.Buffer = new(bytes.Buffer)
 	g.annotations = nil
 	g.generateHeader()
-	// g.generateImports()
+	g.generateImports()
 	if !g.writeOutput {
 		return
 	}
@@ -1316,9 +1316,9 @@ func (g *Generator) generateImports() {
 	// do, which is tricky when there's a plugin, just import it and
 	// reference it later. The same argument applies to the fmt and math packages.
 	g.P("import (")
-	g.P(g.Pkg["fmt"] + ` "fmt"`)
-	g.P(g.Pkg["math"] + ` "math"`)
-	g.P(g.Pkg["proto"]+" ", GoImportPath(g.ImportPrefix)+"github.com/golang/protobuf/proto")
+	// g.P(g.Pkg["fmt"] + ` "fmt"`)
+	// g.P(g.Pkg["math"] + ` "math"`)
+	// g.P(g.Pkg["proto"]+" ", GoImportPath(g.ImportPrefix)+"github.com/golang/protobuf/proto")
 	for importPath, packageName := range imports {
 		g.P(packageName, " ", GoImportPath(g.ImportPrefix)+importPath)
 	}
@@ -1329,11 +1329,11 @@ func (g *Generator) generateImports() {
 		p.GenerateImports(g.file)
 		g.P()
 	}
-	g.P("// Reference imports to suppress errors if they are not otherwise used.")
-	g.P("var _ = ", g.Pkg["proto"], ".Marshal")
-	g.P("var _ = ", g.Pkg["fmt"], ".Errorf")
-	g.P("var _ = ", g.Pkg["math"], ".Inf")
-	g.P()
+	// g.P("// Reference imports to suppress errors if they are not otherwise used.")
+	// g.P("var _ = ", g.Pkg["proto"], ".Marshal")
+	// g.P("var _ = ", g.Pkg["fmt"], ".Errorf")
+	// g.P("var _ = ", g.Pkg["math"], ".Inf")
+	// g.P()
 }
 
 func (g *Generator) generateImported(id *ImportedDescriptor) {
